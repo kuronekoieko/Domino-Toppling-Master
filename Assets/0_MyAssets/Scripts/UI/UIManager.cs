@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void RuntimeInitializeApplication()
     {
-        SceneManager.LoadScene("UIScene");
+       // SceneManager.LoadScene("UIScene");
     }
 
     void Awake()
