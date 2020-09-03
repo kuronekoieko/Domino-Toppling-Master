@@ -10,7 +10,7 @@ public class DominoController : MonoBehaviour
     {
         forwardDomino = GetForwardDomino(isForward: true);
         backwardDomino = GetForwardDomino(isForward: false);
-        Debug.Log(forwardDomino + " " + backwardDomino);
+        // Debug.Log(forwardDomino + " " + backwardDomino);
     }
 
     private void Update()
