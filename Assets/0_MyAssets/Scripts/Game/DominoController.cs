@@ -56,6 +56,7 @@ public class DominoController : MonoBehaviour
     {
         if (GameManager.i.isClicked) return;
         GameManager.i.isClicked = true;
+        GameCanvasManager.i?.HideTutrial();
         if (forwardDomino == null)
         {
             Topple(isForward: false);

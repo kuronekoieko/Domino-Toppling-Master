@@ -45,3 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dominoColors:
   - {r: 1, g: 0.3820755, b: 0.3820755, a: 1}
+  - {r: 0.3803922, g: 0.42093027, b: 1, a: 1}
+  - {r: 1, g: 0.3803922, b: 0.9326677, a: 1}
+  - {r: 1, g: 0.96104085, b: 0.3803922, a: 1}
