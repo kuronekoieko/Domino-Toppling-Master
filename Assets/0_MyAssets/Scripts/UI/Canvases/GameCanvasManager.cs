@@ -17,8 +17,6 @@ public class GameCanvasManager : BaseCanvasManager
 
     public override void OnStart()
     {
-
-
         base.SetScreenAction(thisScreen: ScreenState.Game);
 
         this.ObserveEveryValueChanged(currentStageIndex => Variables.currentStageIndex)
@@ -27,7 +25,6 @@ public class GameCanvasManager : BaseCanvasManager
 
         gameObject.SetActive(true);
         retryButton.onClick.AddListener(base.ReLoadScene);
-
     }
 
     public override void OnUpdate()
