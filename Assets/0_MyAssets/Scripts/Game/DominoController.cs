@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DominoController : MonoBehaviour
 {
+    [SerializeField] Rigidbody rb;
     DominoController forwardDomino;
     DominoController backwardDomino;
     void Start()
@@ -32,6 +33,6 @@ public class DominoController : MonoBehaviour
     public void OnMouseDownEventTrigger()
     {
 
-
+        rb.AddForceAtPosition(transform.forward * 100f, transform.position + Vector3.up);
     }
 }
