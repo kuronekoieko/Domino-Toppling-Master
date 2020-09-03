@@ -15,8 +15,6 @@ public class UICameraController : MonoBehaviour
     void Start()
     {
         if (i == null) i = this;
-        Camera uiCam = GetComponent<Camera>();
-        uiCam.cullingMask |= 1 << LayerMask.NameToLayer(Strings.LAYER_CONFETTI);
     }
 
     void Update()
@@ -27,6 +25,6 @@ public class UICameraController : MonoBehaviour
     {
         confettiL.Play();
         confettiR.Play();
-        SoundManager.i.PlayOneShot(1);
+        // SoundManager.i.PlayOneShot(1);
     }
 }
