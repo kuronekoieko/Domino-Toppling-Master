@@ -33,7 +33,10 @@ public class GameCanvasManager : BaseCanvasManager
     public override void OnUpdate()
     {
         if (!base.IsThisScreen()) { return; }
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            base.ReLoadScene();
+        }
     }
 
     protected override void OnOpen()
