@@ -20,6 +20,14 @@ public class DominoController : MonoBehaviour
         backwardDomino = GetForwardDomino(isForward: false);
         // Debug.Log(name + " >>>>> " + forwardDomino + " >>>>> " + backwardDomino);
     }
+    private void Update()
+    {
+        // Debug.Log(transform.rotation.x);
+        if (45 < transform.eulerAngles.x && transform.eulerAngles.x < 90)
+        {
+            isToppled = true;
+        }
+    }
 
     public void SetColor(Color color)
     {
@@ -67,10 +75,5 @@ public class DominoController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        DominoController domino = other.gameObject.GetComponent<DominoController>();
-        if (domino)
-        {
-            isToppled = true;
-        }
     }
 }
