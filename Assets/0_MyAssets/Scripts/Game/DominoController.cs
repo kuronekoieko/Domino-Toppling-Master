@@ -8,11 +8,25 @@ public class DominoController : MonoBehaviour
     DominoController forwardDomino;
     DominoController backwardDomino;
     public bool isToppled;
+    MeshRenderer[] meshRenderers;
+
+    private void Awake()
+    {
+        meshRenderers = GetComponentsInChildren<MeshRenderer>();
+    }
     void Start()
     {
         forwardDomino = GetForwardDomino(isForward: true);
         backwardDomino = GetForwardDomino(isForward: false);
         // Debug.Log(name + " >>>>> " + forwardDomino + " >>>>> " + backwardDomino);
+    }
+
+    public void SetColor(Color color)
+    {
+        foreach (var meshRenderer in meshRenderers)
+        {
+            meshRenderer.material.color = color;
+        }
     }
 
     DominoController GetForwardDomino(bool isForward)
