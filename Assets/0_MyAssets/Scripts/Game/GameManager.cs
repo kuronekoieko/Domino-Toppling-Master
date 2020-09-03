@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     void ClearCheck()
     {
-        bool isClear = dominoControllers.All(d => d.isToppled);
+        bool isClear = dominoControllers.All(d => d.dominoState == DominoState.Toppled);
         if (isClear == false) return;
         if (Variables.screenState != ScreenState.Game) return;
         Variables.screenState = ScreenState.Clear;

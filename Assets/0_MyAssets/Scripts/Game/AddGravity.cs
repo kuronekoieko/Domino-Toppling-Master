@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class AddGravity : MonoBehaviour
 {
-    [SerializeField] float downForce;
+    public float downForce;
     Rigidbody rb;
-    void Start()
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
-
 
     void Update()
     {

@@ -1,13 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
+public enum DominoState
+{
+    Standing,
+    Toppling,
+    Toppled,
+}
 public class DominoController : MonoBehaviour
 {
     [SerializeField] Rigidbody rb;
+    [SerializeField] AddGravity addGravity;
     DominoController forwardDomino;
     DominoController backwardDomino;
-    public bool isToppled;
+    [NonSerialized] public DominoState dominoState;
     MeshRenderer[] meshRenderers;
 
     private void Awake()
@@ -18,6 +26,7 @@ public class DominoController : MonoBehaviour
     {
         forwardDomino = GetForwardDomino(isForward: true);
         backwardDomino = GetForwardDomino(isForward: false);
+        dominoState = DominoState.Standing;
     }
 
     private void Update()
@@ -30,7 +39,8 @@ public class DominoController : MonoBehaviour
         float xAngle = Vector3.Angle(Vector3.up, transform.up);
         if (xAngle < 45) return;
         if (90 < xAngle) return;
-        isToppled = true;
+        dominoState = DominoState.Toppled;
+        addGravity.downForce = 0;
     }
 
     public void SetColor(Color color)
@@ -75,6 +85,23 @@ public class DominoController : MonoBehaviour
     void Topple(bool isForward)
     {
         int sign = isForward ? 1 : -1;
-        rb.AddForceAtPosition(sign * transform.forward * 150f, transform.position + Vector3.up);
+        rb.AddForceAtPosition(sign * transform.forward * 150f * rb.mass, transform.position + Vector3.up);
+        dominoState = DominoState.Toppling;
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        PushOtherDomino(other);
+    }
+
+    void PushOtherDomino(Collision other)
+    {
+        var otherDomino = other.gameObject.GetComponent<DominoController>();
+        if (otherDomino == null) return;
+        if (otherDomino.dominoState != DominoState.Standing) return;
+        Vector3 direction = otherDomino.transform.position - this.transform.position;
+        float dot = Vector3.Dot(direction, otherDomino.transform.forward);
+        otherDomino.Topple(isForward: dot > 0);
+    }
+
 }
