@@ -9,9 +9,12 @@ using System.Linq;
 public class GameManager : MonoBehaviour
 {
     DominoController[] dominoControllers;
+    public static GameManager i;
+    public bool isClicked;
     private void Awake()
     {
         dominoControllers = FindObjectsOfType<DominoController>();
+        i = this;
     }
 
     private void Start()

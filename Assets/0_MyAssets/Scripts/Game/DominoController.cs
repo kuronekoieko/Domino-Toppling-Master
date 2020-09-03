@@ -28,6 +28,8 @@ public class DominoController : MonoBehaviour
 
     public void OnMouseDownEventTrigger()
     {
+        if (GameManager.i.isClicked) return;
+        GameManager.i.isClicked = true;
         if (forwardDomino == null)
         {
             Topple(isForward: false);
