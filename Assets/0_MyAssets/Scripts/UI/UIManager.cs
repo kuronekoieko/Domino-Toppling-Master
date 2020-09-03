@@ -44,7 +44,8 @@ public class UIManager : MonoBehaviour
         }
 
         SceneManager.sceneLoaded += SceneLoaded;
-        SceneManager.LoadScene(1);
+        Variables.currentSceneBuildIndex++;
+        SceneManager.LoadScene(Variables.currentSceneBuildIndex);
     }
 
     void Update()

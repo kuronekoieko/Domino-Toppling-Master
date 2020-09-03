@@ -18,15 +18,19 @@ public class DominoController : MonoBehaviour
     {
         forwardDomino = GetForwardDomino(isForward: true);
         backwardDomino = GetForwardDomino(isForward: false);
-        // Debug.Log(name + " >>>>> " + forwardDomino + " >>>>> " + backwardDomino);
     }
+
     private void Update()
     {
-        // Debug.Log(transform.rotation.x);
-        if (45 < transform.eulerAngles.x && transform.eulerAngles.x < 90)
-        {
-            isToppled = true;
-        }
+        CheckTopped();
+    }
+
+    void CheckTopped()
+    {
+        float xAngle = Vector3.Angle(Vector3.up, transform.up);
+        if (xAngle < 45) return;
+        if (90 < xAngle) return;
+        isToppled = true;
     }
 
     public void SetColor(Color color)
@@ -71,9 +75,5 @@ public class DominoController : MonoBehaviour
     {
         int sign = isForward ? 1 : -1;
         rb.AddForceAtPosition(sign * transform.forward * 150f, transform.position + Vector3.up);
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
     }
 }

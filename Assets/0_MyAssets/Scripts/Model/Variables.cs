@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// ゲーム内で使う変数
@@ -11,11 +12,11 @@ using UnityEngine;
 public class Variables : MonoBehaviour
 {
     public static ScreenState screenState = ScreenState.Game;
-    public static int currentStageIndex
+    public static int currentSceneBuildIndex
     {
-        set { _currentstageIndex = Mathf.Clamp(value, 0, lastStageIndex); }
-        get { return _currentstageIndex; }
+        set { _currentSceneBuildIndex = Mathf.Clamp(value, 1, SceneManager.sceneCountInBuildSettings - 1); }
+        get { return _currentSceneBuildIndex; }
     }
-    private static int _currentstageIndex;
-    public static int lastStageIndex;
+    private static int _currentSceneBuildIndex;
+
 }
