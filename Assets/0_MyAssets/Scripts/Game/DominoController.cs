@@ -7,32 +7,54 @@ public class DominoController : MonoBehaviour
     [SerializeField] Rigidbody rb;
     DominoController forwardDomino;
     DominoController backwardDomino;
+    public bool isToppled;
     void Start()
     {
         forwardDomino = GetForwardDomino(isForward: true);
         backwardDomino = GetForwardDomino(isForward: false);
-        // Debug.Log(forwardDomino + " " + backwardDomino);
-    }
-
-    private void Update()
-    {
-
-
+        // Debug.Log(name + " >>>>> " + forwardDomino + " >>>>> " + backwardDomino);
     }
 
     DominoController GetForwardDomino(bool isForward)
     {
         int sign = isForward ? 1 : -1;
         Ray ray = new Ray(transform.position + Vector3.up, transform.forward * sign);
-        bool isHit = Physics.SphereCast(ray.origin, 0.5f, ray.direction, out RaycastHit hit, Mathf.Infinity);
-        Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10f, Color.red);
+        float distance = 2f;
+        bool isHit = Physics.SphereCast(ray.origin, 0.5f, ray.direction, out RaycastHit hit, distance);
+        Debug.DrawLine(ray.origin, ray.origin + ray.direction * distance, Color.red);
         if (isHit == false) return null;
         return hit.collider.GetComponent<DominoController>();
     }
 
     public void OnMouseDownEventTrigger()
     {
+        if (forwardDomino == null)
+        {
+            Topple(isForward: false);
+            return;
+        }
+        if (backwardDomino == null)
+        {
+            Topple(isForward: true);
+            return;
+        }
 
-        rb.AddForceAtPosition(transform.forward * 100f, transform.position + Vector3.up);
+        Topple(isForward: true);
+        backwardDomino.Topple(isForward: false);
+    }
+
+    void Topple(bool isForward)
+    {
+        int sign = isForward ? 1 : -1;
+        rb.AddForceAtPosition(sign * transform.forward * 150f, transform.position + Vector3.up);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        DominoController domino = other.gameObject.GetComponent<DominoController>();
+        if (domino)
+        {
+            isToppled = true;
+        }
     }
 }

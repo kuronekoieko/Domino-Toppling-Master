@@ -8,11 +8,28 @@ using System.Linq;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    GameObject[] stages;
-    void Start()
+    DominoController[] dominoControllers;
+    private void Awake()
     {
-        stages = Resources.LoadAll("Stages", typeof(GameObject)).Cast<GameObject>().ToArray();
-        Variables.lastStageIndex = stages.Length - 1;
-        Instantiate(stages[Variables.currentStageIndex], Vector3.zero, Quaternion.identity);
+        dominoControllers = FindObjectsOfType<DominoController>();
+    }
+
+    private void Start()
+    {
+
+    }
+
+    private void Update()
+    {
+        ClearCheck();
+    }
+
+    void ClearCheck()
+    {
+        bool isClear = dominoControllers.All(d => d.isToppled);
+        if (isClear == false) return;
+        if (Variables.screenState != ScreenState.Game) return;
+        Variables.screenState = ScreenState.Clear;
+        Debug.Log("clear");
     }
 }

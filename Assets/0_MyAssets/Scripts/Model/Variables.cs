@@ -10,7 +10,7 @@ using UnityEngine;
 /// </summary>
 public class Variables : MonoBehaviour
 {
-    public static ScreenState screenState;
+    public static ScreenState screenState = ScreenState.Game;
     public static int currentStageIndex
     {
         set { _currentstageIndex = Mathf.Clamp(value, 0, lastStageIndex); }
