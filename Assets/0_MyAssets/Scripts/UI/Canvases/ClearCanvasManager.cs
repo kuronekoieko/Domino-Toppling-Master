@@ -8,12 +8,14 @@ using DG.Tweening;
 public class ClearCanvasManager : BaseCanvasManager
 {
     [SerializeField] Button nextButton;
+    [SerializeField] Button retryButton;
 
     public override void OnStart()
     {
         base.SetScreenAction(thisScreen: ScreenState.Clear);
 
         nextButton.onClick.AddListener(OnClickNextButton);
+        retryButton.onClick.AddListener(base.ReLoadScene);
         gameObject.SetActive(false);
     }
 
@@ -26,6 +28,8 @@ public class ClearCanvasManager : BaseCanvasManager
     protected override void OnOpen()
     {
         UICameraController.i.PlayConfetti();
+        nextButton.gameObject.SetActive(!base.IsLastStage);
+        retryButton.gameObject.SetActive(base.IsLastStage);
         DOVirtual.DelayedCall(1.5f, () =>
         {
             gameObject.SetActive(true);

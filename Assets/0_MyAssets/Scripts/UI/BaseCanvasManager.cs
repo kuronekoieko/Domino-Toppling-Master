@@ -90,6 +90,8 @@ public class BaseCanvasManager : MonoBehaviour
         return Variables.screenState == thisScreen;
     }
 
+    protected bool IsLastStage => Variables.currentSceneBuildIndex == SceneManager.sceneCountInBuildSettings - 1;
+
     /*
         public readonly ScreenState thisScreen = ScreenState.
         
