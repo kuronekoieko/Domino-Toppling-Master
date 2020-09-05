@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
-/// <summary>
-/// 3D空間の処理の管理
-/// </summary>
+
+public enum GameState
+{
+    TapWaiting,
+    Toppling,
+}
 public class GameManager : MonoBehaviour
 {
     [SerializeField] Color[] dominoColors;
@@ -13,6 +16,7 @@ public class GameManager : MonoBehaviour
     DominoController[] dominoControllers;
     public static GameManager i;
     [NonSerialized] public int tapCountLeft;
+    [NonSerialized] public GameState gameState;
     private void Awake()
     {
         dominoControllers = FindObjectsOfType<DominoController>();
@@ -27,19 +31,42 @@ public class GameManager : MonoBehaviour
             domino.SetColor(randomColor);
         }
         tapCountLeft = tapCount;
+        gameState = GameState.TapWaiting;
     }
 
     private void Update()
     {
-        ClearCheck();
+        switch (gameState)
+        {
+            case GameState.TapWaiting:
+                break;
+            case GameState.Toppling:
+                int topplingCount = dominoControllers.Count(d => d.dominoState == DominoState.Toppling);
+                if (topplingCount > 0) break;
+                gameState = GameState.TapWaiting;
+                bool isAllDominoToppled = dominoControllers.All(d => d.dominoState == DominoState.Toppled);
+                FailedCheck(isAllDominoToppled);
+                ClearCheck(isAllDominoToppled);
+                break;
+            default:
+                break;
+        }
     }
 
-    void ClearCheck()
+    void ClearCheck(bool isAllDominoToppled)
     {
-        bool isClear = dominoControllers.All(d => d.dominoState == DominoState.Toppled);
-        if (isClear == false) return;
+        if (isAllDominoToppled == false) return;
         if (Variables.screenState != ScreenState.Game) return;
         Variables.screenState = ScreenState.Clear;
-        Debug.Log("clear");
+        Debug.Log(Variables.screenState);
+    }
+
+    void FailedCheck(bool isAllDominoToppled)
+    {
+        if (tapCountLeft > 0) return;
+        if (isAllDominoToppled) return;
+        if (Variables.screenState != ScreenState.Game) return;
+        Variables.screenState = ScreenState.Failed;
+        Debug.Log(Variables.screenState);
     }
 }

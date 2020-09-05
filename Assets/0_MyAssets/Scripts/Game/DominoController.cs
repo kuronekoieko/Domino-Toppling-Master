@@ -66,8 +66,11 @@ public class DominoController : MonoBehaviour
     {
         if (dominoState != DominoState.Standing) return;
         if (GameManager.i.tapCountLeft == 0) return;
+        if (GameManager.i.gameState != GameState.TapWaiting) return;
         GameManager.i.tapCountLeft--;
         GameCanvasManager.i?.HideTutrial();
+        GameManager.i.gameState = GameState.Toppling;
+
         if (forwardDomino == null)
         {
             Topple(isForward: false);
