@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using DG.Tweening;
 
 public enum DominoState
 {
@@ -108,4 +109,15 @@ public class DominoController : MonoBehaviour
         otherDomino.Topple(isForward: dot > 0);
     }
 
+    public void BlinkAnim()
+    {
+        foreach (var meshRenderer in meshRenderers)
+        {
+            Sequence sequence = DOTween.Sequence()
+            .Append(DOTween.ToAlpha(() => meshRenderer.material.color, color => meshRenderer.material.color = color, 0f, 0.5f))
+            .Append(DOTween.ToAlpha(() => meshRenderer.material.color, color => meshRenderer.material.color = color, 1f, 0.5f));
+            sequence.SetLoops(2);
+        }
+
+    }
 }

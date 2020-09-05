@@ -68,5 +68,16 @@ public class GameManager : MonoBehaviour
         if (Variables.screenState != ScreenState.Game) return;
         Variables.screenState = ScreenState.Failed;
         Debug.Log(Variables.screenState);
+        LeftDominoBlinkAnim();
+    }
+
+    void LeftDominoBlinkAnim()
+    {
+        var leftDominoes = dominoControllers.Where(d => d.dominoState == DominoState.Standing);
+
+        foreach (var domino in leftDominoes)
+        {
+            domino.BlinkAnim();
+        }
     }
 }
