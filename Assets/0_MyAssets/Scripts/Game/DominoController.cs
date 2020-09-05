@@ -113,11 +113,23 @@ public class DominoController : MonoBehaviour
     {
         foreach (var meshRenderer in meshRenderers)
         {
+            SetTransparent(meshRenderer.material);
             Sequence sequence = DOTween.Sequence()
             .Append(DOTween.ToAlpha(() => meshRenderer.material.color, color => meshRenderer.material.color = color, 0f, 0.5f))
             .Append(DOTween.ToAlpha(() => meshRenderer.material.color, color => meshRenderer.material.color = color, 1f, 0.5f));
             sequence.SetLoops(2);
         }
+    }
 
+    void SetTransparent(Material material)
+    {
+        material.SetOverrideTag("RenderType", "Transparent");
+        material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        material.SetInt("_ZWrite", 0);
+        material.DisableKeyword("_ALPHATEST_ON");
+        material.DisableKeyword("_ALPHABLEND_ON");
+        material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
+        material.renderQueue = 3000;
     }
 }
