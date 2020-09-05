@@ -9,9 +9,10 @@ using System;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] Color[] dominoColors;
+    [SerializeField] int tapCount;
     DominoController[] dominoControllers;
     public static GameManager i;
-    [NonSerialized] public bool isClicked;
+    [NonSerialized] public int tapCountLeft;
     private void Awake()
     {
         dominoControllers = FindObjectsOfType<DominoController>();
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
             Color randomColor = dominoColors[UnityEngine.Random.Range(0, dominoColors.Length)];
             domino.SetColor(randomColor);
         }
+        tapCountLeft = tapCount;
     }
 
     private void Update()

@@ -64,8 +64,9 @@ public class DominoController : MonoBehaviour
 
     public void OnMouseDownEventTrigger()
     {
-        if (GameManager.i.isClicked) return;
-        GameManager.i.isClicked = true;
+        if (dominoState != DominoState.Standing) return;
+        if (GameManager.i.tapCountLeft == 0) return;
+        GameManager.i.tapCountLeft--;
         GameCanvasManager.i?.HideTutrial();
         if (forwardDomino == null)
         {

@@ -15,6 +15,7 @@ public class GameCanvasManager : BaseCanvasManager
     [SerializeField] Text stageNumText;
     [SerializeField] Button retryButton;
     [SerializeField] TutrialHandController tutrialHandController;
+    [SerializeField] Text tapCountText;
     public static GameCanvasManager i;
     public override void OnStart()
     {
@@ -24,6 +25,10 @@ public class GameCanvasManager : BaseCanvasManager
         this.ObserveEveryValueChanged(currentSceneBuildIndex => Variables.currentSceneBuildIndex)
             .Subscribe(currentSceneBuildIndex => { ShowStageNumText(); })
             .AddTo(this.gameObject);
+
+        this.ObserveEveryValueChanged(tapCountLeft => GameManager.i?.tapCountLeft)
+        .Subscribe(tapCountLeft => { tapCountText.text = "x " + tapCountLeft; })
+        .AddTo(this.gameObject);
 
         gameObject.SetActive(true);
         retryButton.onClick.AddListener(base.ReLoadScene);
